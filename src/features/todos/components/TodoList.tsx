@@ -2,32 +2,20 @@
 import { Todo } from "../types/todo"
 import TodoItem from "./TodoItem"
 import { Button } from "@/components/ui/button";
-import {Card} from "@/components/ui/card"
 
 
-export default function TodoList({ deleteItem, checkItem, doneTodos, toBeDoneTodos, removeDoneToDos}: { deleteItem(id: string): void, checkItem(id: string): void, doneTodos : Todo[] , toBeDoneTodos : Todo[], removeDoneToDos() : void}) {
+export default function TodoList({ deleteItem, checkItem, doneTodos, toBeDoneTodos, removeDoneToDos, editToDo }: { deleteItem(id: string): void, checkItem(id: string): void, doneTodos: Todo[], toBeDoneTodos: Todo[], removeDoneToDos(): void, editToDo(id: string, newTitle: string): void }) {
     if (doneTodos.length === 0 && toBeDoneTodos.length === 0) {
-        return <h1 className="mt-5 flex flex-col items-center"> Seems like there is nothing to do</h1>
+        return <h1 className="mt-5 text-center"> Seems like there is nothing to do</h1>
     }
-    
-    function handleClick () {
+    function handleClick() {
         removeDoneToDos()
     }
     return (
-        <div className="form">
-            <Card className="mx-auto w-full max-w-sm">  
-                <div className="mt-5 flex flex-col items-center">
-                    <>
-                    {toBeDoneTodos.map(todo => <TodoItem key={todo.id} todo={todo} deleteItem={deleteItem} checkItem={checkItem} />)}
-                    {toBeDoneTodos.length > 0  && <h1 > {toBeDoneTodos.length} tasks to do</h1>}
-                    </>
-                    <>
-                    {doneTodos.map(todo => <TodoItem key={todo.id} todo={todo} deleteItem={deleteItem} checkItem={checkItem} />)}
-                    {doneTodos.length > 0 && <h1 > {doneTodos.length} completed </h1>}
-                    </>
-                    {doneTodos.length > 0 && <Button onClick={handleClick} > Delete completed </Button>}
-                </div>
-        </Card>
+        <div className="mt-5 flex w-full flex-col gap-4">
+            {toBeDoneTodos.map(todo => <TodoItem key={todo.id} todo={todo} deleteItem={deleteItem} checkItem={checkItem} editToDo={editToDo} />)}
+            {doneTodos.length > 0 && <h1 className="flex w-full items-center justify-between text-gray-500 uppercase tracking-wide"> СOMPLETED · {doneTodos.length} <Button variant="ghost" className="h-auto p-0 text-gray-500 hover:bg-transparent hover:text-gray-700" onClick={handleClick} > Clear completed </Button></h1>}
+            {doneTodos.map(todo => <TodoItem key={todo.id} todo={todo} deleteItem={deleteItem} checkItem={checkItem} editToDo={editToDo} />)}
         </div>
     )
 } 

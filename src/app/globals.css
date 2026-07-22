@@ -130,31 +130,3 @@
 }
 
 
-.Item {
-    margin-top: 10px;                 /* Отступ сверху 10 пикселей */
-    display: grid;                    /* Размещаем элементы в виде таблицы */
-    grid-template-columns: 30px 200px auto; /* Первая колонка 30px, вторая 200px, третья занимает всё остальное место */
-    align-items: center;              /* Все элементы стоят по центру по высоте */
-    gap: 12px;                        /* Расстояние между элементами 12px */
-}
-
-.form {
-    margin-top: 30px;   
-    display: flex;
-    align-items: center; /* выровнять по вертикали */
-    gap: 10px;           /* расстояние между полем и кнопкой */
-}
-
-#titelTodoApp {
-    text-align: center;               /* Текст будет по центру */
-    margin-top: 20px;                 /* Отступ сверху 20 пикселей */
-    align-items: center;
-    margin-bottom: 10px;              /* Здесь ничего не делает */
-}
-
-
-#ifNoToDos {
-     text-align: center;               /* Текст будет по центру */
-     margin-top: 20px;                 /* Отступ сверху 20 пикселей */
-     align-items: center;              /* Здесь ничего не делает */ 
-}
