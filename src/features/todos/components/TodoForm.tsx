@@ -1,8 +1,7 @@
 "use client"
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input"
-import { Plus } from "lucide-react";
 
+import { Plus } from "lucide-react";
+import { InputGroup, InputGroupButton ,InputGroupInput} from "@/components/ui/input-group";
 
 export default function TodoForm({ addItem }: { addItem(title: string): void }) {
   function handleSubmit(formData: FormData) {
@@ -16,27 +15,10 @@ export default function TodoForm({ addItem }: { addItem(title: string): void }) 
   }
   return (
     <form className="mt-7.5" action={handleSubmit}>
-      <div className="relative">
-        <Input
-          className="h-13 pr-3"
-          name="inputToDo"
-          placeholder="Add a new task..."
-        />
-        <button
-          type="submit"
-          className="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-xl bg-sky-400 text-white transition-colors duration-200 hover:bg-cyan-500"
-        >
-          <Plus className="h-4 w-4" />
-        </button>
-      </div>
+         <InputGroup >
+            <InputGroupInput name="inputToDo" placeholder="Add a new task..." />
+            <InputGroupButton type="submit"> <Plus className="h-4 w-4" /> </InputGroupButton>
+         </InputGroup>
     </form>
   )
 }
-/* <Button
-          type="submit"
-          onClick={() => console.log("Button got clicked!")}
-          className="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-xl bg-sky-400 text-white transition-colors duration-200 hover:bg-cyan-500"
-        >
-          <Plus className="h-4 w-4" />
-        </Button>
-*/

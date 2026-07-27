@@ -45,11 +45,30 @@ export default function useToDos() {
     // Speichert neue array-State
     saveTodos(filtered)
   }
+  // abstraction makes sense here?
+  // Difference: checkItem vs Edittodo is: 
+  // Edit single todo
   // Changed Checkbox 
-  function checkItem(id: string) {
+  // If you trasnport enitre TOdo, you have id, and all changes
+  // todo = {title: "new", id: <old>, completed: old}
+  // todo = {title: <old>, id: <old>, completed: true}
+
+  function updateToDo(updatedTodo : Todo) {
+    const newArray = todos.map((todo) => {
+      if (updatedTodo.id === todo.id) {
+        return updatedTodo;
+      } 
+      else{
+        return todo;
+      }
+    })
+    saveTodos(newArray)
+  }
+
+  /* function checkItem(id: string) {
     const newArray = todos.map(todo => {
       if (todo.id === id) {
-        return { ...todo, status: !todo.status }
+        return { ...todo, status: !todo.status } // return { ...todoToBeEdited}
       } else {
         return todo;
       }
@@ -67,6 +86,7 @@ export default function useToDos() {
     })
     saveTodos(newArray)
   }
+    */
   const doneTodos = todos.filter(todo => todo.status);
   const toBeDoneTodos = todos.filter(todo => !todo.status);
 
@@ -74,5 +94,5 @@ export default function useToDos() {
     const newArray = todos.filter((todo) => !todo.status)
     saveTodos(newArray)
   }
-  return { deleteItem, addItem, checkItem, doneTodos, toBeDoneTodos, removeDoneToDos, editToDo }
+  return { deleteItem, addItem,updateToDo, doneTodos, toBeDoneTodos, removeDoneToDos}
 }
