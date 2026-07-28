@@ -17,7 +17,6 @@ export default function useToDos() {
 
   // Neue ToDo hinzufügen
   function addItem(title: string) {
-    
     //Neue todo Objekt initialisieren
     const todo: Todo = {
       id: crypto.randomUUID(),

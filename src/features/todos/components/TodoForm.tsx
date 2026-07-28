@@ -15,9 +15,9 @@ export default function TodoForm({ addItem }: { addItem(title: string): void }) 
   }
   return (
     <form className="mt-7.5" action={handleSubmit}>
-         <InputGroup >
+         <InputGroup className="h-14" >
             <InputGroupInput name="inputToDo" placeholder="Add a new task..." />
-            <InputGroupButton type="submit"> <Plus className="h-4 w-4" /> </InputGroupButton>
+            <InputGroupButton className="h-full aspect-square" type="submit"> <Plus /> </InputGroupButton>
          </InputGroup>
     </form>
   )
