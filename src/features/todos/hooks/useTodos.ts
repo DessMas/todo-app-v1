@@ -6,9 +6,8 @@ import { loadToDos, updateTodosInLocalStorage } from "../services/todoStorage"
 export default function useToDos() {
   // State zum Speichern aller Todos
   const [todos, setToDos] = React.useState<Todo[]>([]);
-  /**
+  /*
    * Because of Emtpy dependency Array loadToDos gets called once on load
-   * 
    */
   useEffect(() => {
     const initialTodos = loadToDos();
@@ -16,19 +15,10 @@ export default function useToDos() {
   }, []);
 
   // Neue ToDo hinzufügen
-  function addItem(title: string) {
-    //Neue todo Objekt initialisieren
-    const todo: Todo = {
-      id: crypto.randomUUID(),
-      status: false,
-      title: title
-    }
+  function addItem(todo: Todo) {
     // Neue Todo am Ende des Arrays hinzufügen 
     const newTodos = [...todos, todo];
     saveTodos(newTodos)
-    // setToDos(newTodos)
-    // updateTodosInLocalStorage(newTodos)
-    console.log("addItem function has added new item with this title:", title )
   }
   function saveTodos(todos: Todo[]) {
     setToDos(todos)
@@ -37,21 +27,13 @@ export default function useToDos() {
 
   //ToDO löschen
   function deleteItem(id: string) {
-    //Neue array ohne todo mit dem ausgewählten id 
+    //Neues array ohne todo mit dem ausgewählten id 
     const filtered = todos.filter((todo) => {
       return todo.id !== id
     });
     // Speichert neue array-State
     saveTodos(filtered)
   }
-  // abstraction makes sense here?
-  // Difference: checkItem vs Edittodo is: 
-  // Edit single todo
-  // Changed Checkbox 
-  // If you trasnport enitre TOdo, you have id, and all changes
-  // todo = {title: "new", id: <old>, completed: old}
-  // todo = {title: <old>, id: <old>, completed: true}
-
   function updateToDo(updatedTodo : Todo) {
     const newArray = todos.map((todo) => {
       if (updatedTodo.id === todo.id) {
@@ -63,29 +45,6 @@ export default function useToDos() {
     })
     saveTodos(newArray)
   }
-
-  /* function checkItem(id: string) {
-    const newArray = todos.map(todo => {
-      if (todo.id === id) {
-        return { ...todo, status: !todo.status } // return { ...todoToBeEdited}
-      } else {
-        return todo;
-      }
-    })
-    saveTodos(newArray)
-  }
-  function editToDo(id: string, newTitle: string) {
-    const newArray = todos.map(todo => {
-      if (todo.id === id) {
-        return { ...todo, title: newTitle }
-      }
-      else {
-        return todo
-      }
-    })
-    saveTodos(newArray)
-  }
-    */
   const doneTodos = todos.filter(todo => todo.status);
   const toBeDoneTodos = todos.filter(todo => !todo.status);
 
@@ -93,5 +52,5 @@ export default function useToDos() {
     const newArray = todos.filter((todo) => !todo.status)
     saveTodos(newArray)
   }
-  return { deleteItem, addItem,updateToDo, doneTodos, toBeDoneTodos, removeDoneToDos}
+  return { deleteItem, addItem,updateToDo, doneTodos, toBeDoneTodos, removeDoneToDos }
 }
