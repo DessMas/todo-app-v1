@@ -5,8 +5,7 @@ import { CalendarDays, Check, Pencil, Trash2 } from "lucide-react"
 import { Card } from "@/components/ui/card";
 import { useState } from 'react';
 import { Input } from "@/components/ui/input";
-
-import { format } from "date-fns"
+import { format, isToday } from "date-fns"
 import DatePicker from "./Calendar";
 
 
@@ -31,7 +30,6 @@ export default function TodoItem({ updateToDo, todo, deleteItem }: { updateToDo(
         updateToDo(updatedTodo)
     }
     function handleChangeTitle(event: React.ChangeEvent<HTMLInputElement>) {
-        console.log("123")
         setNewTitle(event.target.value)
     }
     function handleSave() {
@@ -60,7 +58,19 @@ export default function TodoItem({ updateToDo, todo, deleteItem }: { updateToDo(
                     {isEditing ?
                         <DatePicker date={date} setDate={setDate}></DatePicker>
                         :
-                        todo.deadline && <p className={todo.status ? "line-through flex items-center gap-1 text-xs text-gray-500" : "flex items-center gap-1 text-xs text-gray-500"} > <CalendarDays size={15} /> {format(new Date(todo.deadline), "PP")}</p>}
+                        (todo.deadline) && (
+                            <p className={todo.status ? "line-through flex items-center gap-1 text-xs text-gray-500 "
+                                :
+                                "flex items-center gap-1 text-xs text-gray-500"}>
+                                <CalendarDays className={todo.status && isToday(new Date(todo.deadline)) ? "text-blue-500" : ""}
+                                    size={15} />
+                                {isToday(new Date(todo.deadline))
+                                    ?
+                                    <span className="text-blue-500"> {"Today"}</span>
+                                    :
+                                    format(new Date(todo.deadline), "d. MMM.")}
+                            </p>)
+                    }
                 </div>
             </div>
         </Card>
