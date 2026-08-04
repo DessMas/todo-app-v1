@@ -1,4 +1,3 @@
-
 import { Todo } from "../types/todo";
 import React, { useEffect } from "react";
 import { loadToDos, updateTodosInLocalStorage } from "../services/todoStorage"

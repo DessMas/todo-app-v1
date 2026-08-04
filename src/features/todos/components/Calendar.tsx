@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { useState } from 'react';
 
-export default function DatePicker({ date, setDate }: { date: Date | undefined, setDate: React.Dispatch<React.SetStateAction<Date | undefined>> }) {
+export default function DatePicker({ date, setDate, title }: { date: Date | undefined, setDate: React.Dispatch<React.SetStateAction<Date | undefined>>, title: string }) {
   const [open, setOpen] = useState(false)
   function handleSelect (selectedDate : Date | undefined) {
-    setDate(selectedDate), 
+    setDate(selectedDate),
     setOpen(false)
   }
   return (
@@ -28,10 +28,10 @@ export default function DatePicker({ date, setDate }: { date: Date | undefined, 
         }
       >
         <CalendarIcon />
-        {date ? format(date, "PP") : <span>Set a deadline</span>}
+        {date ? format(date, "PP") : <span>{title}</span>}
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
-        <Calendar mode="single" selected={date} onSelect={handleSelect} />
+        <Calendar mode="single" selected={date} onSelect={handleSelect}/>
       </PopoverContent>
     </Popover>
   )
