@@ -12,7 +12,9 @@ import { useState } from 'react';
 
 export default function DatePicker({ date, setDate, title }: { date: Date | undefined, setDate: React.Dispatch<React.SetStateAction<Date | undefined>>, title: string }) {
   const [open, setOpen] = useState(false)
+  console.log("datepicker open-state changed")
   function handleSelect (selectedDate : Date | undefined) {
+    console.log("We are selecting the following date:", selectedDate)
     setDate(selectedDate),
     setOpen(false)
   }
@@ -31,7 +33,7 @@ export default function DatePicker({ date, setDate, title }: { date: Date | unde
         {date ? format(date, "PP") : <span>{title}</span>}
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
-        <Calendar mode="single" selected={date} onSelect={handleSelect}/>
+        <Calendar mode="single" selected={date}  onSelect={handleSelect}/>
       </PopoverContent>
     </Popover>
   )

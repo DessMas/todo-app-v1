@@ -1,12 +1,12 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import type { Todo } from "../types/todo";
-import { Calendar, CalendarDays, Check, Pencil, Trash2 } from "lucide-react";
+import {  Check, Pencil, Trash2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { format, isToday } from "date-fns";
-import DatePicker from "./Calendar";
+import {  isToday } from "date-fns";
+import TodoDeadline from "./TodoDeadline";
 
 export default function TodoItem({
   updateToDo,
@@ -69,7 +69,7 @@ export default function TodoItem({
           </p>
         )}
         <div className="flex gap-2">
-            {/* TODO Can i Improve Is Editing Ternaries? */}
+          {/* TODO Can i Improve Is Editing Ternaries? */}
           {isEditing ? (
             <Button variant="ghost" onClick={handleSave}>
               {" "}
@@ -89,50 +89,26 @@ export default function TodoItem({
             className="opacity-0 transition-all duration-200 group-hover:opacity-100  focus-visible:opacity-100 bg-red-100 hover:bg-red-200"
             onClick={handleDelete}
           >
-            {" "}
             <Trash2 />
-            {" "}
           </Button>
         </div>
-       
-          {isEditing ? (
-             <div className="col-start-2">
-            <DatePicker date={date} setDate={setDate} title="Set a Deadline"></DatePicker>
-            </div>
-          ) : (
-            todo.deadline && (
-             <div className="col-start-2">
-
-              <p
-                className={
-                  todo.status
-                    ? "line-through flex items-center gap-1 text-xs text-gray-500 "
-                    : "flex items-center gap-1 text-xs text-gray-500"
-                }
-              >
-                <CalendarDays
-                  className={todo.status && isTodayDate ? "text-blue-500" : ""}
-                  size={15}
-                />
-                {isTodayDate ? (
-                  <span className="text-blue-500"> {"Today"}</span>
-                ) : (
-                  format(todo.deadline, "d. MMM.")
-                )}
-              </p>
-             </div>
-            )
-          )}
+        <TodoDeadline
+          isEditing={isEditing}
+          date={date}
+          setDate={setDate}
+          todo={todo}
+          isTodayDate={isTodayDate}
+        />
       </div>
     </Card>
   );
 }
 
 //TODO:
-// Card 
-//  checkbox 
-//  Edit: 
-        // Input + anderer Button + Calendar
-    // No Edit: 
-        // Text + Datums Icon (wenn da) + Durchgestrichen
-    // Action Buttons 
+// Card
+//  checkbox
+//  Edit:
+// Input + anderer Button + Calendar
+// No Edit:
+// Text + Datums Icon (wenn da) + Durchgestrichen
+// Action Buttons

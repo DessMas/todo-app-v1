@@ -3,6 +3,7 @@ import TodoList from "@/features/todos/components/TodoList";
 import TodoForm from "@/features/todos/components/TodoForm";
 import useToDos from "../hooks/useTodos";
 export default function TodoPage() {
+  console.log("todo page rerendered")
   const {
     deleteItem,
     addItem,
