@@ -1,12 +1,11 @@
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
 import type { Todo } from "../types/todo";
-import {  Check, Pencil, Trash2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import {  isToday } from "date-fns";
+import { isToday } from "date-fns";
 import TodoDeadline from "./TodoDeadline";
+import TodoCheckbox from "./TodoCheckbox";
+import TodoActions from "./TodoActions";
 
 export default function TodoItem({
   updateToDo,
@@ -51,15 +50,7 @@ export default function TodoItem({
   return (
     <Card className="w-full rounded-xl p-2 shadow-md shadow-gray-100">
       <div className="group grid grid-cols-[30px_1fr_auto] items-center gap-x-3 gap-y-1">
-        <Checkbox
-          className={
-            todo.status
-              ? ""
-              : "hover:border-blue-500 hover:bg-blue-50 transition-colors"
-          }
-          onCheckedChange={handleCheck}
-          checked={todo.status}
-        />
+        <TodoCheckbox checked={todo.status} onCheckedChange={handleCheck} />
         {isEditing ? (
           <Input value={newTitle} onChange={handleChangeTitle} />
         ) : (
@@ -68,30 +59,12 @@ export default function TodoItem({
             {todo.title}{" "}
           </p>
         )}
-        <div className="flex gap-2">
-          {/* TODO Can i Improve Is Editing Ternaries? */}
-          {isEditing ? (
-            <Button variant="ghost" onClick={handleSave}>
-              {" "}
-              <Check className="text-blue-500" />{" "}
-            </Button>
-          ) : (
-            <Button
-              className="opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100 bg-gray-100 text-blue-500 hover:bg-gray-200"
-              onClick={handleIsEditing}
-            >
-              {" "}
-              <Pencil />{" "}
-            </Button>
-          )}
-          <Button
-            variant="destructive"
-            className="opacity-0 transition-all duration-200 group-hover:opacity-100  focus-visible:opacity-100 bg-red-100 hover:bg-red-200"
-            onClick={handleDelete}
-          >
-            <Trash2 />
-          </Button>
-        </div>
+        <TodoActions
+          isEditing={isEditing}
+          onEdit={handleIsEditing}
+          onSave={handleSave}
+          onDelete={handleDelete}
+        />
         <TodoDeadline
           isEditing={isEditing}
           date={date}
