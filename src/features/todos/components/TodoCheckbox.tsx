@@ -1,6 +1,6 @@
 import { Checkbox } from "@/components/ui/checkbox";
 
-export default function TodoCheckbox({ 
+export default function TodoCheckbox({
   checked,
   onCheckedChange,
 }: {
@@ -14,8 +14,8 @@ export default function TodoCheckbox({
           ? ""
           : "hover:border-blue-500 hover:bg-blue-50 transition-colors"
       }
-      onCheckedChange={onCheckedChange}
       checked={checked}
+      onCheckedChange={onCheckedChange}
     />
   );
 }

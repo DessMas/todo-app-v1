@@ -1,12 +1,11 @@
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
+import TodoCheckbox from "./TodoCheckbox";
 import type { Todo } from "../types/todo";
-import { CalendarDays, Check, Pencil, Trash2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { format, isToday } from "date-fns";
-import DatePicker from "./Calendar";
+import { isToday } from "date-fns";
+import TodoEditView from "./TodoEditView";
+import TodoView from "./TodoView";
+import TodoActions from "./TodoActions";
 
 export default function TodoItem({
   updateToDo,
@@ -19,25 +18,18 @@ export default function TodoItem({
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(todo.title);
-
-  const deadlineDate = todo.deadline
-    ? new Date(todo.deadline)
-    : undefined;
-
-  const [date, setDate] = useState<Date | undefined>(deadlineDate);
-
-  const isTodayDate = deadlineDate
-    ? isToday(deadlineDate)
-    : undefined;
+  const deadlineDate = todo.deadline ? new Date(todo.deadline) : undefined;
+  const [date, setDate] = useState<Date | undefined>(deadlineDate); 
+  const isTodayDate = deadlineDate ? isToday(deadlineDate) : undefined;
 
   function handleIsEditing() {
     setIsEditing((prev) => !prev);
   }
 
-  function handleDelete() {
+  function handleDelete() {  
     deleteItem(todo.id);
   }
-
+  
   function handleCheck() {
     // Create new todo checkItem(todo)
     const updatedTodo = {
@@ -48,9 +40,7 @@ export default function TodoItem({
     updateToDo(updatedTodo);
   }
 
-  function handleChangeTitle(
-    event: React.ChangeEvent<HTMLInputElement>
-  ) {
+  function handleChangeTitle(event: React.ChangeEvent<HTMLInputElement>) {
     setNewTitle(event.target.value);
   }
 
@@ -68,97 +58,23 @@ export default function TodoItem({
   return (
     <Card className="w-full rounded-xl p-2 shadow-md shadow-gray-100">
       <div className="group grid grid-cols-[30px_1fr_auto] items-center gap-x-3 gap-y-1">
-        <Checkbox
-          className={
-            todo.status
-              ? ""
-              : "hover:border-blue-500 hover:bg-blue-50 transition-colors"
-          }
-          onCheckedChange={handleCheck}
-          checked={todo.status}
-        />
-
+        <TodoCheckbox checked={todo.status} onCheckedChange={handleCheck} />
         {isEditing ? (
-          <Input
-            value={newTitle}
-            onChange={handleChangeTitle}
+          <TodoEditView
+            newTitle={newTitle}
+            date={date}
+            setDate={setDate}
+            handleChangeTitle={handleChangeTitle}
           />
         ) : (
-          <p
-            className={
-              todo.status
-                ? "line-through text-gray-500"
-                : ""
-            }
-          >
-            {" "}
-            {todo.title}{" "}
-          </p>
+          <TodoView todo={todo} isTodayDate={isTodayDate} />
         )}
-
-        <div className="flex gap-2">
-          {isEditing ? (
-            <Button
-              variant="ghost"
-              onClick={handleSave}
-            >
-              <Check className="text-blue-500" />
-            </Button>
-          ) : (
-            <Button
-              className="opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100 bg-gray-100 text-blue-500 hover:bg-gray-200"
-              onClick={handleIsEditing}
-            >
-              <Pencil />
-            </Button>
-          )}
-          <Button
-            variant="destructive"
-            className="opacity-0 transition-all duration-200 group-hover:opacity-100 focus-visible:opacity-100 bg-red-100 hover:bg-red-200"
-            onClick={handleDelete}
-          >
-            <Trash2 />
-          </Button>
-        </div>
-
-        {isEditing ? (
-          <div className="col-start-2">
-            <DatePicker
-              date={date}
-              setDate={setDate}
-              title={"Set a deadline"}
-            ></DatePicker>
-          </div>
-        ) : (
-          todo.deadline && (
-            <div className="col-start-2">
-              <p
-                className={
-                  todo.status
-                    ? "line-through flex items-center gap-1 text-xs text-gray-500 "
-                    : "flex items-center gap-1 text-xs text-gray-500"
-                }
-              >
-                <CalendarDays
-                  className={
-                    todo.status && isTodayDate
-                      ? "text-blue-500"
-                      : ""
-                  }
-                  size={15}
-                />
-                {isTodayDate ? (
-                  <span className="text-blue-500">
-                    {" "}
-                    {"Today"}
-                  </span>
-                ) : (
-                  format(todo.deadline, "d. MMM.")
-                )}
-              </p>
-            </div>
-          )
-        )}
+        <TodoActions
+          isEditing={isEditing}
+          handleIsEditing={handleIsEditing}
+          handleSave={handleSave}
+          handleDelete={handleDelete}
+        />
       </div>
     </Card>
   );
