@@ -8,7 +8,7 @@ export default function TodoActions({
   onDelete,
 }: {
   isEditing: boolean;
-  onEdit(): void;
+  onEdit(): void; 
   onSave(): void;
   onDelete(): void;
 }) {
