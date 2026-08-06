@@ -55,8 +55,7 @@ export default function TodoItem({
           <Input value={newTitle} onChange={handleChangeTitle} />
         ) : (
           <p className={todo.status ? "line-through text-gray-500" : ""}>
-            {" "}
-            {todo.title}{" "}
+            {todo.title}
           </p>
         )}
         <TodoActions
